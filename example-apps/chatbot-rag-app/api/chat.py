@@ -1,12 +1,17 @@
-from langchain_elasticsearch import ElasticsearchStore, SparseVectorStrategy
-from llm_integrations import get_llm
+import json
+import os
+
 from elasticsearch_client import (
     elasticsearch_client,
     get_elasticsearch_chat_message_history,
 )
-from flask import render_template, stream_with_context, current_app
-import json
-import os
+from flask import current_app, render_template, stream_with_context
+from functools import cache
+from langchain_elasticsearch import (
+    ElasticsearchStore,
+    SparseVectorStrategy,
+)
+from llm_integrations import get_llm
 
 INDEX = os.getenv("ES_INDEX", "workplace-app-docs")
 INDEX_CHAT_HISTORY = os.getenv(
@@ -24,8 +29,15 @@ store = ElasticsearchStore(
 )
 
 
+@cache
+def get_lazy_llm():
+    return get_llm()
+
+
 @stream_with_context
 def ask_question(question, session_id):
+    llm = get_lazy_llm()
+
     yield f"data: {SESSION_ID_TAG} {session_id}\n\n"
     current_app.logger.debug("Chat session ID: %s", session_id)
 
@@ -40,7 +52,7 @@ def ask_question(question, session_id):
             question=question,
             chat_history=chat_history.messages,
         )
-        condensed_question = get_llm().invoke(condense_question_prompt).content
+        condensed_question = llm.invoke(condense_question_prompt).content
     else:
         condensed_question = question
 
@@ -63,7 +75,7 @@ def ask_question(question, session_id):
     )
 
     answer = ""
-    for chunk in get_llm().stream(qa_prompt):
+    for chunk in llm.stream(qa_prompt):
         content = chunk.content.replace(
             "\n", " "
         )  # the stream can get messed up with newlines

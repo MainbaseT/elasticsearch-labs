@@ -7,6 +7,7 @@ EXEMPT_NOTEBOOKS=(
     "notebooks/search/08-learning-to-rank.ipynb"
     "notebooks/search/10-semantic-reranking-retriever-cohere.ipynb"
     "notebooks/search/11-semantic-reranking-hugging-face.ipynb"
+    "notebooks/search/12-semantic-reranking-elastic-rerank.ipynb"
     "notebooks/images/image-similarity.ipynb"
     "notebooks/langchain/langchain-vector-store.ipynb"
     "notebooks/langchain/self-query-retriever-examples/chatbot-example.ipynb"
@@ -29,10 +30,13 @@ EXEMPT_NOTEBOOKS=(
     "notebooks/integrations/llama3/rag-elastic-llama3.ipynb"
     "notebooks/integrations/azure-openai/vector-search-azure-openai-elastic.ipynb"
     "notebooks/enterprise-search/app-search-engine-exporter.ipynb",
+    "notebooks/enterprise-search/elastic-crawler-to-open-crawler-migration.ipynb",
     "notebooks/playground-examples/bedrock-anthropic-elasticsearch-client.ipynb",
     "notebooks/playground-examples/openai-elasticsearch-client.ipynb",
     "notebooks/integrations/hugging-face/huggingface-integration-millions-of-documents-with-cohere-reranking.ipynb",
     "notebooks/integrations/cohere/updated-cohere-elasticsearch-inference-api.ipynb",
+    "notebooks/integrations/alibabacloud-ai-search/inference-alibabacloud-ai-search.ipynb",
+    "notebooks/integrations/jinaai/inference-jinaai.ipynb"
 )
 
 # Per-version testing exceptions
